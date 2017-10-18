@@ -9,6 +9,8 @@
 using namespace std;
 using namespace glm;
 
+//Javier Esponda prueba
+
 class ShaderProgram {
 public:
 	ShaderProgram();
