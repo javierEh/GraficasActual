@@ -1,14 +1,14 @@
 #include "InputFile.h"
-
 #include <fstream>
 #include <iostream>
-#include <sstream>
+#include <sstream> 
+using namespace std;
 
 bool InputFile::Read(const std::string& filename)
 {
 	if (filename.empty())
 	{
-		std::cout << "No filename provided" << std::endl;
+		std::cout << "No filemname provided" << std::endl;
 		return false;
 	}
 
@@ -16,7 +16,7 @@ bool InputFile::Read(const std::string& filename)
 
 	if (!inputFile.is_open())
 	{
-		std::cout << "Could not open file " << filename << std::endl;
+		std::cout << "Could not open file" << filename << std::endl;
 		return false;
 	}
 
@@ -24,6 +24,7 @@ bool InputFile::Read(const std::string& filename)
 	ss << inputFile.rdbuf();
 	_contents = ss.str();
 
+	//std::cout << _contents << filename << std::endl;
 	return true;
 }
 
@@ -31,3 +32,4 @@ const std::string InputFile::GetContents() const
 {
 	return _contents;
 }
+

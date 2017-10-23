@@ -1,43 +1,37 @@
-#pragma once
-
-#include <glm/glm.hpp>
+#pragma once 
 #include "Transform.h"
+#include <glm/glm.hpp>
 
-using namespace glm;
-using namespace std;
-
-class Camera {
+class Camera
+{
 public:
 	Camera();
-	mat4 GetViewProjection();
-	mat4 GetViewMatrix();
-	mat4 GetProjectionMatrix();
-	vec3 GetPosition();
+
+	glm::mat4 GetViewProjection();
+	glm::mat4 GetViewMatrix();
+	glm::mat4 GetProjectionMatrix();
+	glm::vec3 GetPosition();
 
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
+	void MoveForward(float delta, bool world = false);
+	void MoveUp(float delta, bool world = false);
+	void MoveRight(float delta, bool world = false);
 
-	void MoveForward(float delta, bool worl = false);
-	void MoveUp(float delta, bool worl = false);
-	void MoveRight(float delta, bool worl = false);
-
-	//Rota en el eje Y
+	//ROTALACAMARA ALREDEDOR 
+	// Y
 	void Yaw(float degrees);
-	//Rota en el eje z
+	// Z
 	void Roll(float degrees);
-	//Rot en el eje X
+	// X
 	void Pitch(float degrees);
-	void Rotate(float x, float y, float z, bool worl = false);
+	void Rotate(float x, float y, float z, bool world = false);
 
-	//Que tan cerca y que tan lejos va a ver en el plano del corte,
-	//
 	void SetPerspective(float nearPlane, float farPlane, float fieldOfView, float aspectRatio);
-	void SetOrthographic(float sixe, float aspectRatio);
-
+	void SetOrtographic(float size, float aspectRatio);
 private:
 	Transform _transform;
 
-	mat4 _viewMatrix;
-	mat4 _projectionMatrix;
-
+	glm::mat4 _viewMatrix;
+	glm::mat4 _prpjectionMatrix;
 };

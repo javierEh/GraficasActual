@@ -1,5 +1,7 @@
 #include "Camera.h"
-#include <glm\gtc\matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+using namespace std;
+using namespace glm;
 
 Camera::Camera() {
 	SetPerspective(1.0f, 1000.0f, 60.0f, 1.0f);
@@ -7,73 +9,87 @@ Camera::Camera() {
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-mat4 Camera::GetViewProjection() {
-	return _projectionMatrix * _viewMatrix;
+mat4 Camera::GetViewProjection()
+{
+	return _prpjectionMatrix * _viewMatrix;
 }
 
-mat4 Camera::GetViewMatrix() {
+mat4 Camera::GetViewMatrix()
+{
 	return mat4();
 }
 
-mat4 Camera::GetProjectionMatrix() {
-	return _projectionMatrix;
+mat4 Camera::GetProjectionMatrix()
+{
+	return _prpjectionMatrix;
 }
 
-vec3 Camera::GetPosition() {
+vec3 Camera::GetPosition()
+{
 	return _transform.GetPosition();
 }
 
-void Camera::SetPosition(float x, float y, float z) {
+void Camera::SetPosition(float x, float y, float z)
+{
 	_transform.SetPosition(x, y, z);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::SetRotation(float x, float y, float z) {
+void Camera::SetRotation(float x, float y, float z)
+{
 	_transform.SetRotation(x, y, z);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::MoveForward(float delta, bool world) {
-	_transform.MoveFoward(delta, world);
+void Camera::MoveForward(float delta, bool world)
+{
+	_transform.MoveForward(delta, world);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::MoveUp(float delta, bool world) {
-	_transform.MoveUP(delta, world);
+void Camera::MoveUp(float delta, bool world)
+{
+	_transform.MoveUp(delta, world);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::MoveRight(float delta, bool world) {
+void Camera::MoveRight(float delta, bool world)
+{
 	_transform.MoveRight(delta, world);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::Yaw(float degrees) {
+void Camera::Yaw(float degrees)
+{
 	_transform.Rotate(0.0f, degrees, 0.0f, false);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::Roll(float degrees) {
+void Camera::Roll(float degrees)
+{
 	_transform.Rotate(0.0f, 0.0f, degrees, false);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
-
 }
 
-void Camera::Pitch(float degrees) {
+void Camera::Pitch(float degrees)
+{
 	_transform.Rotate(degrees, 0.0f, 0.0f, false);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::Rotate(float x, float y, float z, bool world) {
+void Camera::Rotate(float x, float y, float z, bool world)
+{
 	_transform.Rotate(x, y, z, world);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 
-void Camera::SetPerspective(float nearPlane, float farPlane, float fieldOfView, float aspectRatio) {
-	_projectionMatrix = perspective(radians(fieldOfView), aspectRatio, nearPlane, farPlane);
+void Camera::SetPerspective(float nearPlane, float farPlane, float fieldOfView, float aspectRatio)
+{
+	_prpjectionMatrix = glm::perspective(glm::radians(fieldOfView), aspectRatio, nearPlane, farPlane);
 }
 
-void Camera::SetOrthographic(float size, float aspectRatio) {
-	float xSize = aspectRatio*size;
-	_projectionMatrix = ortho(-xSize, xSize, -size, size, -size, size);
+void Camera::SetOrtographic(float size, float aspectRatio)
+{
+	float xSize = aspectRatio * size;
+	_prpjectionMatrix = glm::ortho(-xSize, xSize, -size, size, -size, size);
 }
