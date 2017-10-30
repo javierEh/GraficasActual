@@ -76,5 +76,7 @@
     <None Include="DiscardCenter.frag">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </None>
+    <None Include="Light.frag" />
+    <None Include="Light.vert" />
   </ItemGroup>
 </Project>

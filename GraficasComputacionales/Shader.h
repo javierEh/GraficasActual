@@ -1,20 +1,17 @@
 #pragma once
-#include <string>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include <glm/glm.hpp>
-#include <vector>
+#include <string>
+
 using namespace std;
-using namespace glm;
 
-
-class Shader
-{
+class shader {
 public:
-	Shader();
-	~Shader();
-	void CreateShader(string path, GLenum  type);
-	GLuint GetHandle();
+	shader();
+	~shader();
+
+	void CreateShader(string path, GLenum type);
+	GLuint getHandle();
 private:
 	GLuint _shaderHandle;
 };
