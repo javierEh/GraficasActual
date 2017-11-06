@@ -1,9 +1,8 @@
-/*********************************************************
-Materia: Gráficas Computacionales
-Fecha: 30 de Noviembre de 2017
-Autor: A01370699 Abraham Soto
-Autor: A01374645 Javier Esponda Hernandez
-*********************************************************/
+//////////////////////////
+//Abraham Soto	A01370699
+//Javier Esponda	A013704645
+//Segundo Examen parcial
+///////////////////////
 #include <GL/glew.h>
 #include <iostream>
 #include <GL/freeglut.h>
@@ -11,6 +10,8 @@ Autor: A01374645 Javier Esponda Hernandez
 #include <vector>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <IL/il.h>
+#include "Texture2D.h"
 
 #include "inputFile.h"
 #include "Mesh.h"
@@ -30,41 +31,42 @@ Camera _camera;
 float deg = 0.0f;
 float scala = 0.5f;
 int creciendo = 1;
+vec3 camaraPos = vec3(0.0f, 0.0f, 50.0f);
+
+texture2D _cubo;
+texture2D _piso;
+texture2D _puerco;
 
 void Initialize() {
 
-	vector<vec3> colors, normals, positions;
+	vector<vec3> normals, positions;
+	vector<vec2> textures;
 
-	//Colores por cara
+	/*//Colores por cara
 	colors.push_back(vec3(1.0f, 1.0f, 0));
 	colors.push_back(vec3(1.0f, 1.0f, 0));
 	colors.push_back(vec3(1.0f, 1.0f, 0));
 	colors.push_back(vec3(1.0f, 1.0f, 0));
-
 	colors.push_back(vec3(0.0f, 1.0f, 0.0f));
 	colors.push_back(vec3(0.0f, 1.0f, 0.0f));
 	colors.push_back(vec3(0.0f, 1.0f, 0.0f));
 	colors.push_back(vec3(0.0f, 1.0f, 0.0f));
-
 	colors.push_back(vec3(0.0f, 0.749f, 1.0f));
 	colors.push_back(vec3(0.0f, 0.749f, 1.0f));
 	colors.push_back(vec3(0.0f, 0.749f, 1.0f));
 	colors.push_back(vec3(0.0f, 0.749f, 1.0f));
-
 	colors.push_back(vec3(1.0f, 0.0f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.0f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.0f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.0f, 0.0f));
-
 	colors.push_back(vec3(1.0f, 1.0f, 0.00f));
 	colors.push_back(vec3(1.0f, 1.0f, 0.0f));
 	colors.push_back(vec3(1.0f, 1.0f, 0.0f));
 	colors.push_back(vec3(1.0f, 1.0f, 0.0f));
-
 	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
-	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
+	colors.push_back(vec3(1.0f, 0.549f, 0.0f));*/
 
 	//Posiciones por cara
 	positions.push_back(vec3(3.0f, -3.0f, -3.0f));
@@ -128,6 +130,36 @@ void Initialize() {
 	normals.push_back(vec3(0.0f, 1.0f, .0f));
 	normals.push_back(vec3(0.0f, 1.0f, .0f));
 
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
+	textures.push_back(vec2(1.0f, 0.0f));
+	textures.push_back(vec2(1.0f, 1.0f));
+	textures.push_back(vec2(0.0f, 0.0f));
+	textures.push_back(vec2(0.0f, 1.0f));
+
 
 	vector<unsigned int> indices = {
 		0, 1, 2, 2, 1, 3,
@@ -135,21 +167,36 @@ void Initialize() {
 		8, 9, 10, 10, 9, 11,
 		12, 13, 14, 14, 13, 15,
 		16, 17, 18, 18, 17, 19,
-		20,21,22,22,21,23,
-	};
+		20, 21, 22, 22, 21, 23 };
+
+
+	vec3 LightColour = vec3(1.0f, 1.0f, 1.0f);
+	vec3 lSource = vec3(18.0f, 0.0f, 20.0f);
+
+	_cubo.LoadTexture("caja.jpg");
+	_piso.LoadTexture("piso.jpg");
+	_puerco.LoadTexture("puerco.jpg");
+
+
+
 	mesh.CreateMesh(positions.size());
 	mesh.SetPositionAttribute(positions, GL_STATIC_DRAW, 0);
-	mesh.SetColorAttribute(colors, GL_STATIC_DRAW, 1);
-	mesh.SetNormalAttribute(normals, GL_STATIC_DRAW, 2);
+	//mesh.SetColorAttribute(colors, GL_STATIC_DRAW, 1);
+	mesh.SetNormalAttribute(normals, GL_STATIC_DRAW, 1);
+	mesh.SetTexCoordAttribute(textures, GL_STATIC_DRAW, 2);
 	mesh.SetIndices(indices, GL_STATIC_DRAW);
 
+
+
 	program.CreateProgram();
+	program.AttachShader("Default.vert", GL_VERTEX_SHADER);
+	program.AttachShader("Default.frag", GL_FRAGMENT_SHADER);
 	program.SetAttribute(0, "VertexPosition");
-	program.SetAttribute(1, "VertexColor");
-	program.SetAttribute(2, "VertexNormal");
-	program.AttachShader("Light.vert", GL_VERTEX_SHADER);
-	program.AttachShader("Light.frag", GL_FRAGMENT_SHADER);
+	program.SetAttribute(1, "VertexNormal");
+	program.SetAttribute(2, "VertexTexCoord");
 	program.LinkProgram();
+
+
 
 	_transform.SetScale(0.3f, 0.3f, 0.3f);
 	_transform2.SetScale(8.0f, 0.01f, 8.0f);
@@ -232,6 +279,17 @@ int main(int argc, char* argv[]) {
 	glEnable(GL_DEPTH_TEST);
 	std::cout << glGetString(GL_VERSION) << std::endl;
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// Inicializar DevIL. Esto se debe hacer sólo una vez.
+	ilInit();
+	// Cambiar el punto de origen de las texturas. Por default, DevIL
+	// pone un punto de origen en la esquina superior izquierda.
+	// Esto es compatible con el sistema operativo, pero no con el
+	// funcionamiento de OpenGL.
+	ilEnable(IL_ORIGIN_SET);
+	// Configurar el punto de origen de las texturas en la esquina
+	// inferior izquierda
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 	// Configuración inicial de nuestro programa
 	Initialize();

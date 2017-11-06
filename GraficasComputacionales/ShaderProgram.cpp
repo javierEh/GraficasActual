@@ -55,6 +55,12 @@ void ShaderProgram::SetUniformf(string name, float value) {
 	glUniform1f(uniformLocation, value);
 }
 
+void ShaderProgram::SetUniformI(string name, int value)
+{
+	GLint  uniformLocation = glGetUniformLocation(_programHandle, (const GLchar*)name.c_str());
+	glUniform1i(uniformLocation, value);
+}
+
 void ShaderProgram::SetUniformf(string name, float x, float y) {
 	GLint  uniformLocation = glGetUniformLocation(_programHandle, name.c_str());
 	glUniform2f(uniformLocation, x, y);
@@ -73,6 +79,12 @@ void ShaderProgram::SetUniformf(string name, float x, float y, float z, float w)
 void ShaderProgram::SetUniformMatrix(string name, mat4 matrix) {
 	GLuint uniformLocation = glGetUniformLocation(_programHandle, name.c_str());
 	glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, value_ptr(matrix));
+}
+
+void ShaderProgram::SetUniformMatrix(string name, mat3 matrix)
+{
+	GLint uniformLocation = glGetUniformLocation(_programHandle, (const GLchar*)name.c_str());
+	glUniformMatrix3fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void ShaderProgram::SetUniformVector(string name, vec3 vector)

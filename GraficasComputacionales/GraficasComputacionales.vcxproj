@@ -124,6 +124,7 @@
     <ClCompile Include="InputFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Tarea5Cubos.cpp" />
+    <ClCompile Include="texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +133,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="InputFile.h" />
+    <ClInclude Include="texture2D.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +143,11 @@
     <None Include="DiscardCenter.vert" />
     <None Include="Light.frag" />
     <None Include="Light.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Downloads\caja.jpg" />
+    <Image Include="..\..\..\Downloads\piso.jpg" />
+    <Image Include="..\..\..\Downloads\puerco.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

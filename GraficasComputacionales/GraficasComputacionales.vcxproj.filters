@@ -42,6 +42,9 @@
     <ClCompile Include="Tarea5Cubos.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="texture2D.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputFile.h">
@@ -62,6 +65,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="texture2D.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default.frag">
@@ -78,5 +84,16 @@
     </None>
     <None Include="Light.frag" />
     <None Include="Light.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Downloads\caja.jpg">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\piso.jpg">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\puerco.jpg">
+      <Filter>Archivos de recursos</Filter>
+    </Image>
   </ItemGroup>
 </Project>

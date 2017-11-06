@@ -21,6 +21,8 @@ public:
 	void SetColorAttribute(vector<vec4> colors, GLenum usage, GLuint locationIndex);
 	void SetNormalAttribute(vector<vec3> normal, GLenum usage, GLuint locationIndex);
 	void SetIndices(vector<unsigned int> indices, GLenum usage);
+	//Para texturas
+	void SetTexCoordAttribute(vector<vec2> texCoords, GLenum usage, GLuint locationIndex);
 
 private:
 	void SetAttributeData(GLuint& buffer, const GLsizeiptr size, const void * data, GLenum usage,
@@ -35,5 +37,7 @@ private:
 	GLuint _indexBufferObject;
 	GLint  _indexCount;
 
+	//Texturas 
+	GLuint _texCoordsVertexBufferObject;
 
 };

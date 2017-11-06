@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include "shader.h"
+
 using namespace std;
 using namespace glm;
 
@@ -21,10 +22,12 @@ public:
 	void Desactivate();
 	void SetAttribute(GLuint locationIndex, string name);
 	void SetUniformf(string name, float value);
+	void SetUniformI(string name, int value);
 	void SetUniformf(string name, float x, float y);
 	void SetUniformf(string name, float x, float y, float z);
 	void SetUniformf(string name, float x, float y, float z, float w);
 	void SetUniformMatrix(string name, mat4 matrix);
+	void SetUniformMatrix(string name, mat3 matrix);
 	void SetUniformVector(string name, vec3 vector);
 
 private:

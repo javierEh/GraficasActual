@@ -1,15 +1,9 @@
-#include <string>
-#include <GL/glew.h>
-#include <GL/freeglut.h>
-#include <glm/glm.hpp>
-#include <vector>
 #include "Mesh.h"
-#include <iostream>
 
 
 /*********************************************************
 Materia: Gráficas Computacionales
-Fecha: 30 de noviembre del 2017
+Fecha: 16 de agosto del 2017
 Autor: A01370699 Abraham Soto
 Autor: A01374645 Javier Esponda
 *********************************************************/
@@ -19,9 +13,10 @@ Mesh::Mesh() {
 	_positionsVertexBufferObject = 0;
 	_colorsVertexBufferObject = 0;
 	_vertexCount = 0;
-
+	_normalsVertexBufferObject = 0;
 	_indexCount = 0;
 	_indexBufferObject = 0;
+	_texCoordsVertexBufferObject = 0;
 
 }
 
@@ -29,6 +24,9 @@ Mesh::~Mesh() {
 	glDeleteBuffers(1, &_positionsVertexBufferObject);
 	glDeleteBuffers(1, &_colorsVertexBufferObject);
 	glDeleteVertexArrays(1, &_vertexArrayObject);
+	glDeleteBuffers(1, &_normalsVertexBufferObject);
+	glBindVertexArray(0);
+
 }
 
 void Mesh::CreateMesh(GLuint vertexCount) {
@@ -86,8 +84,12 @@ void Mesh::SetColorAttribute(vector<vec4> colors, GLenum usage, GLuint locationI
 
 void Mesh::SetNormalAttribute(std::vector<glm::vec3> normal, GLenum usage, GLuint locationIndex)
 {
-	if (normal.size() > 0 && normal.size() == _vertexCount)
+	if (normal.size() > 0 && normal.size() == _vertexCount) {
 		SetAttributeData(_normalsVertexBufferObject, sizeof(glm::vec3) * normal.size(), normal.data(), usage, locationIndex, 3);
+	}
+	else {
+		return;
+	}
 }
 
 
@@ -121,4 +123,13 @@ void Mesh::SetAttributeData(GLuint & buffer, const GLsizeiptr size, const void *
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+}
+
+void Mesh::SetTexCoordAttribute(vector<vec2> texCoords, GLenum usage, GLuint locationIndex) {
+	if (texCoords.size() > 0 && texCoords.size() == _vertexCount) {
+		SetAttributeData(_texCoordsVertexBufferObject, sizeof(glm::vec3) * texCoords.size(), texCoords.data(), usage, locationIndex, 2);
+	}
+	else {
+		return;
+	}
 }
