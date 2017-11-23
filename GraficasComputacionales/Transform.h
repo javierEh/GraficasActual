@@ -18,7 +18,7 @@ public:
 	void SetScale(float x, float y, float z);
 
 	void Translate(float x, float y, float z, bool world);
-	void MoveFoward(float delta, bool world);
+	void MoveForward(float delta, bool world);
 	void MoveUP(float delta, bool world);
 	void MoveRight(float delta, bool world);
 	void Rotate(float x, float y, float z, bool world);

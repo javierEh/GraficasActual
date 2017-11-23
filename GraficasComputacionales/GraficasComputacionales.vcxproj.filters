@@ -45,6 +45,9 @@
     <ClCompile Include="texture2D.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="DepthBuffer.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputFile.h">
@@ -68,6 +71,9 @@
     <ClInclude Include="texture2D.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="DepthBuffer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Default.frag">
@@ -84,15 +90,21 @@
     </None>
     <None Include="Light.frag" />
     <None Include="Light.vert" />
+    <None Include="Shadow.frag" />
+    <None Include="Shadow.vert" />
+    <None Include="Depth.frag" />
+    <None Include="Depth.vert" />
+    <None Include="Shadow2.frag" />
+    <None Include="Shadow2.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\caja.jpg">
+    <Image Include="piso.jpg">
       <Filter>Archivos de recursos</Filter>
     </Image>
-    <Image Include="..\..\..\Downloads\piso.jpg">
+    <Image Include="puerco.jpg">
       <Filter>Archivos de recursos</Filter>
     </Image>
-    <Image Include="..\..\..\Downloads\puerco.jpg">
+    <Image Include="caja.jpg">
       <Filter>Archivos de recursos</Filter>
     </Image>
   </ItemGroup>

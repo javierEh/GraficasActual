@@ -16,6 +16,7 @@ public:
 	~texture2D();
 
 	void LoadTexture(string path);
+	//void LoadTexture(GLint format, GLsizei width, GLsizei height, const void * pixels);
 	void Bind();
 	void Unbind();
 

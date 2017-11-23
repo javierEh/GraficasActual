@@ -118,6 +118,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DepthBuffer.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -129,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DepthBuffer.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
@@ -139,15 +141,21 @@
   <ItemGroup>
     <None Include="Default.frag" />
     <None Include="Default.vert" />
+    <None Include="Depth.frag" />
+    <None Include="Depth.vert" />
     <None Include="DiscardCenter.frag" />
     <None Include="DiscardCenter.vert" />
     <None Include="Light.frag" />
     <None Include="Light.vert" />
+    <None Include="Shadow.frag" />
+    <None Include="Shadow.vert" />
+    <None Include="Shadow2.frag" />
+    <None Include="Shadow2.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Downloads\caja.jpg" />
-    <Image Include="..\..\..\Downloads\piso.jpg" />
-    <Image Include="..\..\..\Downloads\puerco.jpg" />
+    <Image Include="caja.jpg" />
+    <Image Include="piso.jpg" />
+    <Image Include="puerco.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

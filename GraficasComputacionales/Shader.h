@@ -5,13 +5,13 @@
 
 using namespace std;
 
-class shader {
+class Shader {
 public:
-	shader();
-	~shader();
+	Shader();
+	~Shader();
 
 	void CreateShader(string path, GLenum type);
-	GLuint getHandle();
+	GLuint GetHandle();
 private:
 	GLuint _shaderHandle;
 };

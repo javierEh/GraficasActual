@@ -15,10 +15,10 @@ void main()
 {
 	vec3 ambient = 0.1f * normalize(LightColor);
 	vec3 L = normalize(LightPosition - PixelPosition);
-	mat3 NormalMatrix = transpose(inverse(mat3(modelMatrix)));
-	vec3 IterpolatedNormal = normalize(NormalMatrix * IterpolatedVertexNormal);
-	vec3 diffuse = dot(normalize(IterpolatedNormal), L) * normalize(LightColor);
-	vec3 R = normalize(reflect(-L, IterpolatedNormal));
+	//mat3 NormalMatrix = transpose(inverse(mat3(modelMatrix)));
+	//vec3 IterpolatedNormal = normalize(NormalMatrix * IterpolatedVertexNormal);
+	vec3 diffuse = dot(normalize(IterpolatedVertexNormal), L) * normalize(LightColor);
+	vec3 R = normalize(reflect(-L, IterpolatedVertexNormal));
 	vec3 V = normalize(CamaraPosition - PixelPosition);
 	vec3 specular = 0.5f * pow(dot(V, R), 32) * normalize(LightColor);
 	FragColor = vec4(InterpolatedColor * (ambient + diffuse + specular), 1.0f);

@@ -1,6 +1,9 @@
 #include "Camera.h"
 #include <glm\gtc\matrix_transform.hpp>
 
+using namespace glm;
+using namespace std;
+
 Camera::Camera() {
 	SetPerspective(1.0f, 1000.0f, 60.0f, 1.0f);
 	// Inversa de la matriz modelo de la cámara
@@ -34,7 +37,7 @@ void Camera::SetRotation(float x, float y, float z) {
 }
 
 void Camera::MoveForward(float delta, bool world) {
-	_transform.MoveFoward(delta, world);
+	_transform.MoveForward(delta, world);
 	_viewMatrix = inverse(_transform.GetModelMatrix());
 }
 

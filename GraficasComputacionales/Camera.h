@@ -17,9 +17,9 @@ public:
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
 
-	void MoveForward(float delta, bool worl = false);
-	void MoveUp(float delta, bool worl = false);
-	void MoveRight(float delta, bool worl = false);
+	void MoveForward(float delta, bool world = false);
+	void MoveUp(float delta, bool world = false);
+	void MoveRight(float delta, bool world = false);
 
 	//Rota en el eje Y
 	void Yaw(float degrees);
@@ -27,7 +27,7 @@ public:
 	void Roll(float degrees);
 	//Rot en el eje X
 	void Pitch(float degrees);
-	void Rotate(float x, float y, float z, bool worl = false);
+	void Rotate(float x, float y, float z, bool world = false);
 
 	//Que tan cerca y que tan lejos va a ver en el plano del corte,
 	//
