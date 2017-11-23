@@ -13,6 +13,7 @@ Autor: A01374645 Javier Esponda Hernandez
 #include <iostream>
 
 #include "inputFile.h"
+#include "DepthBuffer.h"
 #include "Mesh.h"
 #include "shader.h"
 #include "ShaderProgram.h"
@@ -25,14 +26,20 @@ using namespace std;
 using namespace glm;
 
 Mesh mesh;
+
 ShaderProgram program;
+ShaderProgram programa;
+ShaderProgram programa2;
+
 Transform _transform;
 Transform _transform2;
 Transform _transform3;
+
 Camera _camera;
-//float deg = 0.0f;
-//float scala = 0.5f;
-//int creciendo = 1;
+Camera _camaraLuz;
+
+DepthBuffer profundidad;
+
 vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 vec3 lightPosition = vec3(0.0f, 5.0f, 10.0f);
 
@@ -187,27 +194,33 @@ void Initialize() {
 	piso.LoadTexture("piso.jpg");
 	mario.LoadTexture("mario.png");
 
+	//Manager
 	mesh.CreateMesh(positions.size());
 	mesh.SetPositionAttribute(positions, GL_STATIC_DRAW, 0);
 	mesh.SetColorAttribute(colors, GL_STATIC_DRAW, 1);
 	mesh.SetNormalAttribute(normals, GL_STATIC_DRAW, 2);
 	mesh.SetTexCoordAttribute(textures, GL_STATIC_DRAW, 3);
 	mesh.SetIndices(indices, GL_STATIC_DRAW);
+	glBindVertexArray(0);
+
+	//Shader Program para profundidad
+	programa.CreateProgram();
+	programa.AttachShader("Depth.vert", GL_VERTEX_SHADER);
+	programa.AttachShader("Depth.frag", GL_FRAGMENT_SHADER);
+	programa.SetAttribute(0, "VertexPosition");
+	programa.LinkProgram();
+	
 
 	program.CreateProgram();
-	//program.SetAttribute(0, "VertexPosition");
-	//program.SetAttribute(1, "VertexColor");
-	//program.SetAttribute(2, "VertexNormal");
-	//program.AttachShader("Light.vert", GL_VERTEX_SHADER);
-	//program.AttachShader("Light.frag", GL_FRAGMENT_SHADER);
-	//program.LinkProgram();
 	program.AttachShader("Shadow.vert", GL_VERTEX_SHADER);
 	program.AttachShader("Shadow.frag", GL_FRAGMENT_SHADER);
 	program.SetAttribute(0, "VertexPosition");
 	program.SetAttribute(1, "VertexColor");
 	program.SetAttribute(2, "VertexNormal");
-	program.SetAttribute(3, "VertexTextCoord");
+	program.SetAttribute(3, "VertexTexCoord");
 	program.LinkProgram();
+
+	program.Activate();
 	
 	program.Activate();
 	program.SetUniformf("lightColor", 1.0f, 1.0f, 1.0f);
@@ -215,6 +228,7 @@ void Initialize() {
 	program.SetUniformf("cameraPosition", _camera.GetPosition().x, _camera.GetPosition().y, _camera.GetPosition().z);
 	program.SetUniformi("diffuseTexture", 0);
 	program.SetUniformi("diffuseTexture2", 1);
+	program.SetUniformi("shadowMap", 2);
 	program.Deactivate();
 
 	_transform.SetScale(0.3f, 0.3f, 0.3f);
@@ -224,13 +238,63 @@ void Initialize() {
 	_transform2.SetPosition(0.0f, -2.0f, 0.0f);
 
 	_camera.SetPosition(0.0f, 0.0f, 10.0f);
+	_camaraLuz.SetPosition(lightPosition.x, lightPosition.y, lightPosition.z);
+	_camaraLuz.Pitch(-45);
+	_camaraLuz.SetOrthographic(30.0f, 1);
+	
+	//Recibe resolucion
+	profundidad.Create(2048);
+	
+	//program.CreateProgram();
+	//program.SetAttribute(0, "VertexPosition");
+	//program.SetAttribute(1, "VertexColor");
+	//program.SetAttribute(2, "VertexNormal");
+	//program.AttachShader("Light.vert", GL_VERTEX_SHADER);
+	//program.AttachShader("Light.frag", GL_FRAGMENT_SHADER);
+	//program.LinkProgram();
+	
+	
+	
+
+	
 }
 
 void GameLoop() {
+	_transform.Rotate(0.01f, 0.01f, 0.01f, false);
+	
+	/////////////////////////////////////////////////////////////////////////////
+	//Primer Render
+	/////////////////////////////////////////////////////////////////////////////
+	
+	//Usaremos Depth.vert y frag para regresar la distancia entre un punto y la camara
+	profundidad.Bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_transform.Rotate(0.01f, 0.01f, 0.01f, false);
+	programa.Activate();
 
+	//Cubo
+	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform.GetModelMatrix());
+	mesh.Draw(GL_TRIANGLES);
+
+	//Piso
+	mat4 mm2 = _transform2.GetModelMatrix();
+	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform2.GetModelMatrix());
+	mesh.Draw(GL_TRIANGLES);
+
+	programa.Deactivate();
+
+	profundidad.Unbind();
+	glViewport(0, 0, 400, 400);
+
+	///////////////////////////////////////////////////////////////////////////
+	//Segundo Render
+	///////////////////////////////////////////////////////////////////////////
+	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	
+
+	//profundidad.Bind();
 	program.Activate();
 
 	glActiveTexture(GL_TEXTURE0);
@@ -238,6 +302,9 @@ void GameLoop() {
 
 	glActiveTexture(GL_TEXTURE1);
 	mario.Bind();
+
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
 
 	/*
 	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix());
@@ -261,12 +328,18 @@ void GameLoop() {
 	program.SetUniformMatrix("modelMatrix", modelMatrix);
 	program.SetUniformMatrix3("normalMatrix", normalMatrix);
 	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform.GetModelMatrix());
-	//program.SetUniformMatrix("LightVPMatrix", );
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	program.SetUniformi("shadowMap", 2);
 	mesh.Draw(GL_TRIANGLES);
+	
 	glActiveTexture(GL_TEXTURE0);
 	caja.Unbind();
 	glActiveTexture(GL_TEXTURE1);
 	mario.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+
+
 
 	glActiveTexture(GL_TEXTURE0);
 	piso.Bind();
@@ -275,9 +348,18 @@ void GameLoop() {
 	program.SetUniformMatrix("modelMatrix", modelMatrix2);
 	program.SetUniformMatrix3("normalMatrix", normalMatrix2);
 	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform2.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	program.SetUniformi("shadowMap", 2);
+	
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
 	mesh.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
 	glActiveTexture(GL_TEXTURE0);
 	piso.Unbind();
+	
+
 
 
 	program.Deactivate();
@@ -318,7 +400,7 @@ int main(int argc, char* argv[]) {
 	// true color RGBA, un buffer de produndidad y un segundo buffer para renderear
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE); // Dos framebuffers
 
-															   // Iniciar las dimensiones de la ventana (en pixeles)
+	// Iniciar las dimensiones de la ventana (en pixeles)
 	glutInitWindowSize(400, 400);
 
 	// Creeamos la ventana y le damos un título.

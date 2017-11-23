@@ -116,4 +116,5 @@ void Transform::UpdateModelMatrixRotationScale() {
 	_modelMatrix[1] *= _scale.y;
 	_modelMatrix[2] *= _scale.z;
 	UpdateModelMatrixPosition();
+	UpdateLocalVector();
 }

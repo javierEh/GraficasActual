@@ -36,7 +36,7 @@ void main()
 {
     vec3 ambient = 0.1f * lightColor;
 	vec3 L = normalize(lightPosition - PixelPosition);
-	vec3 diffuse = max(dot(InterpolatedNormal, L), 0.0f) * lightColor;
+	vec3 diffuse = max(dot(normalize(InterpolatedNormal), L), 0.0f) * lightColor;
 	vec3 R = normalize(reflect(-L, normalize(InterpolatedNormal)));
 	vec3 V = normalize(cameraPosition - PixelPosition);
 	vec3 specular = 0.5f * pow(max(dot(V, R), 0.0f), 32) * lightColor;
@@ -44,7 +44,7 @@ void main()
 	vec4 texA = texture2D(diffuseTexture, InterpolatedTexCoord);
 	
 	float shadow = IsPixelOccluded(PixelPositionLightSpace);
-	vec3 phong = (ambient + (1.0 - 0.0f) * (diffuse + specular)) * vec3(texA);
-	//FragColor = vec4(phong, 1.0f);
-	FragColor = (1.0f - shadow) * texture2D(diffuseTexture, InterpolatedTexCoord);
+	vec3 phong = (ambient + (1.0 - shadow) * (diffuse + specular)) * vec3(texA);
+	FragColor = vec4(phong, 1.0f);
+	//FragColor = (1.0f - shadow) * texture2D(diffuseTexture, InterpolatedTexCoord);
 }
