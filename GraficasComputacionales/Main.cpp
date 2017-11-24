@@ -244,7 +244,7 @@ void Initialize() {
 
 	//Falanges
 	//Manager
-	falange.CreateMesh(positions.size());
+	falange.CreateMesh(positionsFalange.size());
 	falange.SetPositionAttribute(positionsFalange, GL_STATIC_DRAW, 0);
 	falange.SetColorAttribute(colors, GL_STATIC_DRAW, 1);
 	falange.SetNormalAttribute(normals, GL_STATIC_DRAW, 2);
@@ -282,8 +282,8 @@ void Initialize() {
 	program.Deactivate();
 
 	programa2.CreateProgram();
-	programa2.AttachShader("Shadow.vert", GL_VERTEX_SHADER);
-	programa2.AttachShader("Shadow.frag", GL_FRAGMENT_SHADER);
+	programa2.AttachShader("Shadow2.vert", GL_VERTEX_SHADER);
+	programa2.AttachShader("Shadow2.frag", GL_FRAGMENT_SHADER);
 	programa2.SetAttribute(0, "VertexPosition");
 	programa2.SetAttribute(1, "VertexColor");
 	programa2.SetAttribute(2, "VertexNormal");
@@ -313,7 +313,8 @@ void Initialize() {
 	_transform.SetPosition(0.0f, 0.0f, 0.0f);
 	_transform2.SetPosition(0.0f, -2.0f, 0.0f);
 	
-	_falPul1.SetPosition(10.0f, -6.0f, 0.0f);
+	_falPul1.SetScale(0.1f, 0.05f, 0.2f);
+	_falPul1.SetPosition(2.0f, 0.0f, 0.0f);
 
 	//Recibe resolucion
 	profundidad.Create(2048);
@@ -333,7 +334,7 @@ void GameLoop() {
 	profundidad.Bind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	programa.Activate();
+	programa2.Activate();
 
 	//Cubo
 	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform.GetModelMatrix());
@@ -344,11 +345,16 @@ void GameLoop() {
 	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform2.GetModelMatrix());
 	mesh.Draw(GL_TRIANGLES);
 
+	//programa.Deactivate();
+
+	//programa2.Activate();
 	//Pulgar
-	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform.GetModelMatrix() * _falPul1.GetModelMatrix());
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _falPul1.GetModelMatrix());
 	falange.Draw(GL_TRIANGLES);
 
-	programa.Deactivate();
+	programa2.Deactivate();
+
+	
 
 	profundidad.Unbind();
 	glViewport(0, 0, 400, 400);
