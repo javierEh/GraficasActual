@@ -19,11 +19,10 @@ float IsPixelOccluded(vec4 fragPosLightSpace){
 	// Realizar la corrección de perspectiva. Coordenadas en rango [-1, 1] -> Normalized Device Space 
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 	// Transformar projCoords al rango [0, 1]. 
-	projCoords = (projCoords * 0.5 + 0.5)
+	projCoords = projCoords = (projCoords * 0.5 + 0.5)
 	// Muestrear el mapa de profundidad usando projCoords.xy como coordenadas de textura.
 	// Con esto obtenemos la profundidad del pixel en el primer render (desde la luz).
-	float closestDepth = texture2D(shadowMap, projCoords.xy).r;
-	// La profundidad del pixel desde la actual cámara (ya transformado) está en projCoords.z 
+	float closestDepth = texture2D(shadowMap, projCoords.xy).r;	// La profundidad del pixel desde la actual cámara (ya transformado) está en projCoords.z 
 	float currentDepth =  projCoords.z;
 	// Si la profundidad del render actual es mayor a closestDepth, regresar 1.0f 
 	// De lo contrario, regresar 0.0f 

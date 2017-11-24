@@ -25,7 +25,9 @@ Autor: A01374645 Javier Esponda Hernandez
 using namespace std;
 using namespace glm;
 
+//Palma
 Mesh mesh;
+Mesh falange;
 
 ShaderProgram program;
 ShaderProgram programa;
@@ -33,7 +35,9 @@ ShaderProgram programa2;
 
 Transform _transform;
 Transform _transform2;
-Transform _transform3;
+
+//Falanges
+Transform _falPul1;
 
 Camera _camera;
 Camera _camaraLuz;
@@ -54,7 +58,7 @@ texture2D caja;
 
 void Initialize() {
 
-	vector<vec3> colors, normals, positions;
+	vector<vec3> colors, normals, positions, positionsFalange;
 	vector<vec2> textures;
 
 	//Colores por cara
@@ -88,38 +92,72 @@ void Initialize() {
 	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
 	colors.push_back(vec3(1.0f, 0.549f, 0.0f));
 
+	//Posiciones por cara para la Palma
+	//trasera
+	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	//derecha
+	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
+	//abajo
+	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	//frontal
+	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	//izquierda
+	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	//arriba
+	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
+
+	//Posiciones para las falanges
 	//Posiciones por cara
 	//trasera
-	positions.push_back(vec3(3.0f, -3.0f, -3.0f));
-	positions.push_back(vec3(3.0f, 3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, -3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, -3.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
 	//derecha
-	positions.push_back(vec3(3.0f, -3.0f, -3.0f));
-	positions.push_back(vec3(3.0f, 3.0f, -3.0f));
-	positions.push_back(vec3(3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(3.0f, 3.0f, 3.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
 	//abajo
-	positions.push_back(vec3(3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(3.0f, -3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(-3.0f, -3.0f, -3.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
 	//frontal
-	positions.push_back(vec3(3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(3.0f, 3.0f, 3.0f));
-	positions.push_back(vec3(-3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, 3.0f));
+	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
 	//izquierda
-	positions.push_back(vec3(-3.0f, -3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, -3.0f, 3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, 3.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
 	//arriba
-	positions.push_back(vec3(3.0f, 3.0f, 3.0f));
-	positions.push_back(vec3(3.0f, 3.0f, -3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, 3.0f));
-	positions.push_back(vec3(-3.0f, 3.0f, -3.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
 
+	//Normales
 	//trasera
 	normals.push_back(vec3(0.0f, 0.0f, -1.0f));
 	normals.push_back(vec3(0.0f, 0.0f, -1.0f));
@@ -194,6 +232,7 @@ void Initialize() {
 	piso.LoadTexture("piso.jpg");
 	mario.LoadTexture("mario.png");
 
+	//Palma
 	//Manager
 	mesh.CreateMesh(positions.size());
 	mesh.SetPositionAttribute(positions, GL_STATIC_DRAW, 0);
@@ -203,12 +242,23 @@ void Initialize() {
 	mesh.SetIndices(indices, GL_STATIC_DRAW);
 	glBindVertexArray(0);
 
+	//Falanges
+	//Manager
+	falange.CreateMesh(positions.size());
+	falange.SetPositionAttribute(positionsFalange, GL_STATIC_DRAW, 0);
+	falange.SetColorAttribute(colors, GL_STATIC_DRAW, 1);
+	falange.SetNormalAttribute(normals, GL_STATIC_DRAW, 2);
+	falange.SetTexCoordAttribute(textures, GL_STATIC_DRAW, 3);
+	falange.SetIndices(indices, GL_STATIC_DRAW);
+	glBindVertexArray(0);
+
 	//Shader Program para profundidad
 	programa.CreateProgram();
 	programa.AttachShader("Depth.vert", GL_VERTEX_SHADER);
 	programa.AttachShader("Depth.frag", GL_FRAGMENT_SHADER);
 	programa.SetAttribute(0, "VertexPosition");
 	programa.LinkProgram();
+	glBindVertexArray(0);
 	
 
 	program.CreateProgram();
@@ -222,7 +272,7 @@ void Initialize() {
 
 	program.Activate();
 	
-	program.Activate();
+	//program.Activate();
 	program.SetUniformf("lightColor", 1.0f, 1.0f, 1.0f);
 	program.SetUniformf("lightPosition", lightPosition.x, lightPosition.y, lightPosition.z);
 	program.SetUniformf("cameraPosition", _camera.GetPosition().x, _camera.GetPosition().y, _camera.GetPosition().z);
@@ -231,29 +281,42 @@ void Initialize() {
 	program.SetUniformi("shadowMap", 2);
 	program.Deactivate();
 
-	_transform.SetScale(0.3f, 0.3f, 0.3f);
-	_transform2.SetScale(8.0f, 0.01f, 8.0f);
+	programa2.CreateProgram();
+	programa2.AttachShader("Shadow.vert", GL_VERTEX_SHADER);
+	programa2.AttachShader("Shadow.frag", GL_FRAGMENT_SHADER);
+	programa2.SetAttribute(0, "VertexPosition");
+	programa2.SetAttribute(1, "VertexColor");
+	programa2.SetAttribute(2, "VertexNormal");
+	programa2.SetAttribute(3, "VertexTexCoord");
+	programa2.LinkProgram();
 
-	_transform.SetPosition(0.0f, 0.0f, 0.0f);
-	_transform2.SetPosition(0.0f, -2.0f, 0.0f);
+	programa2.Activate();
+
+	programa2.SetUniformf("cameraPosition", _camera.GetPosition().x, _camera.GetPosition().y, _camera.GetPosition().z);
+	programa2.SetUniformi("diffuseTexture", 0);
+	programa2.SetUniformi("diffuseTexture2", 1);
+	programa2.SetUniformi("shadowMap", 2);
+	programa2.SetUniformf("lightColor", 1.0f, 1.0f, 1.0f);
+	programa2.SetUniformf("lightPosition", lightPosition.x, lightPosition.y, lightPosition.z);
+	
+	programa2.Deactivate();
 
 	_camera.SetPosition(0.0f, 0.0f, 10.0f);
 	_camaraLuz.SetPosition(lightPosition.x, lightPosition.y, lightPosition.z);
 	_camaraLuz.Pitch(-45);
 	_camaraLuz.SetOrthographic(30.0f, 1);
+
+	_transform.SetScale(0.2f, 0.2f, 0.2f);
+	_transform.SetRotation(-45.0f, 0.0f, 0.0f);
+	_transform2.SetScale(8.0f, 0.01f, 8.0f);
+
+	_transform.SetPosition(0.0f, 0.0f, 0.0f);
+	_transform2.SetPosition(0.0f, -2.0f, 0.0f);
 	
+	_falPul1.SetPosition(10.0f, -6.0f, 0.0f);
+
 	//Recibe resolucion
 	profundidad.Create(2048);
-	
-	//program.CreateProgram();
-	//program.SetAttribute(0, "VertexPosition");
-	//program.SetAttribute(1, "VertexColor");
-	//program.SetAttribute(2, "VertexNormal");
-	//program.AttachShader("Light.vert", GL_VERTEX_SHADER);
-	//program.AttachShader("Light.frag", GL_FRAGMENT_SHADER);
-	//program.LinkProgram();
-	
-	
 	
 
 	
@@ -281,6 +344,10 @@ void GameLoop() {
 	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform2.GetModelMatrix());
 	mesh.Draw(GL_TRIANGLES);
 
+	//Pulgar
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform.GetModelMatrix() * _falPul1.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+
 	programa.Deactivate();
 
 	profundidad.Unbind();
@@ -292,9 +359,6 @@ void GameLoop() {
 	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	
-
-	//profundidad.Bind();
 	program.Activate();
 
 	glActiveTexture(GL_TEXTURE0);
@@ -306,27 +370,11 @@ void GameLoop() {
 	glActiveTexture(GL_TEXTURE2);
 	profundidad.BindDepthMap();
 
-	/*
-	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix());
-	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix());
-	program.SetUniformVector("LightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-	program.SetUniformVector("LightPosition", glm::vec3(0, 0, 5.0f));
-	program.SetUniformVector("CamaraPosition", _camera.GetPosition());
-	mesh.Draw(GL_TRIANGLES);
-
-	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform2.GetModelMatrix());
-	program.SetUniformMatrix("modelMatrix", _transform2.GetModelMatrix());
-	mesh.Draw(GL_TRIANGLES);
-	program.Deactivate();
-	*/
-
 	program.SetUniformf("lightColor", lightColor.x, lightColor.y, lightColor.z);
 	program.SetUniformf("lightPosition", lightPosition.x, lightPosition.y, lightPosition.z);
 	program.SetUniformf("cameraPosition", _camera.GetPosition().x, _camera.GetPosition().y, _camera.GetPosition().z);
-	modelMatrix = _transform.GetModelMatrix();
-	normalMatrix = transpose(inverse(mat3(_transform.GetModelMatrix())));
-	program.SetUniformMatrix("modelMatrix", modelMatrix);
-	program.SetUniformMatrix3("normalMatrix", normalMatrix);
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix()))));
 	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform.GetModelMatrix());
 	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
 	program.SetUniformi("shadowMap", 2);
@@ -339,8 +387,7 @@ void GameLoop() {
 	glActiveTexture(GL_TEXTURE2);
 	profundidad.UnbindDepthMap();
 
-
-
+	//Piso
 	glActiveTexture(GL_TEXTURE0);
 	piso.Bind();
 	modelMatrix2 = _transform2.GetModelMatrix();
@@ -350,7 +397,7 @@ void GameLoop() {
 	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform2.GetModelMatrix());
 	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
 	program.SetUniformi("shadowMap", 2);
-	
+
 	glActiveTexture(GL_TEXTURE2);
 	profundidad.BindDepthMap();
 	mesh.Draw(GL_TRIANGLES);
@@ -359,9 +406,25 @@ void GameLoop() {
 	glActiveTexture(GL_TEXTURE0);
 	piso.Unbind();
 	
+	program.Deactivate();
 
-
-
+	//Pulgar
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	mat4 matModeloPul = _transform.GetModelMatrix() * _falPul1.GetModelMatrix();
+	normalMatrix2 = glm::transpose(glm::inverse(mat3(_transform.GetModelMatrix() * _falPul1.GetModelMatrix())));
+	program.SetUniformMatrix("modelMatrix", matModeloPul);
+	program.SetUniformMatrix3("normalMatrix", normalMatrix2);
+	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection() * _falPul1.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
 	program.Deactivate();
 
 	//Cuando terminamos de renderear, cambiamos los buffers.
