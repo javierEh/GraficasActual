@@ -12,14 +12,14 @@ out vec3 PixelPosition;
 out vec2 InterpolatedTexCoord;
 
 uniform mat4 LightVPMatrix;
-uniform mat4 mvplMatrix;
+uniform mat4 mvpMatrix;
 uniform mat4 modelMatrix;
 uniform mat3 normalMatrix;
 
 void main()
 {
 	InterpolatedColor = VertexColor;
-	gl_Position = mvplMatrix * vec4(VertexPosition, 1.0f);
+	gl_Position = mvpMatrix * vec4(VertexPosition, 1.0f);
 	PixelPosition = vec3(modelMatrix * vec4(VertexPosition, 1.0f));
 	InterpolatedNormal = normalMatrix * VertexNormal;
 	InterpolatedTexCoord = VertexTexCoord;

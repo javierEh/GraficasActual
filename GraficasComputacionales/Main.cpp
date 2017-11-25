@@ -37,7 +37,32 @@ Transform _transform;
 Transform _transform2;
 
 //Falanges
+//Pulgar
 Transform _falPul1;
+Transform _falPul2;
+
+//Indice
+Transform _falIn1;
+Transform _falIn2;
+
+//Medio
+Transform _falMed1;
+Transform _falMed2;
+
+//Menique
+Transform _falM1;
+Transform _falM2;
+
+//Mov
+Transform _prueba;
+Transform _prueba2;
+Transform _prueba3;
+Transform _prueba4;
+Transform _prueba5;
+Transform _prueba6;
+Transform _prueba7;
+Transform _prueba8;
+
 
 Camera _camera;
 Camera _camaraLuz;
@@ -55,6 +80,15 @@ mat3 normalMatrix2;
 texture2D piso;
 texture2D mario;
 texture2D caja;
+
+//Para mover los dedos
+float rotarDedos = 0.05f;
+float trasladarDedos = 0.004f;
+float rotarDedos1 = 0.05f;
+float trasladarDedos1 = 0.004f;
+float rotarDedos2 = 0.05f;
+float trasladarDedos2 = 0.004f;
+int delta = 0;
 
 void Initialize() {
 
@@ -94,68 +128,68 @@ void Initialize() {
 
 	//Posiciones por cara para la Palma
 	//trasera
-	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, -1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, -1.0f));
 	//derecha
-	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, -1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, -1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, 1.0f));
 	//abajo
-	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, -1.0f));
 	//frontal
-	positions.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
-	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, 1.0f));
 	//izquierda
-	positions.push_back(vec3(-5.0f, -7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, -5.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, 1.0f));
 	//arriba
-	positions.push_back(vec3(5.0f, 7.0f, 1.0f));
-	positions.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, 1.0f));
-	positions.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, 1.0f));
+	positions.push_back(vec3(3.0f, 5.0f, -1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, 1.0f));
+	positions.push_back(vec3(-3.0f, 5.0f, -1.0f));
 
 	//Posiciones para las falanges
 	//Posiciones por cara
 	//trasera
-	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, -3.0f * 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, 3.0f * 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f * 0.2f, -3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f * 0.2f, 3.0f* 0.6f, -1.0f));
 	//derecha
-	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, -3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, 3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, 3.0f* 0.6f, 1.0f));
 	//abajo
-	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(5.0f, -7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f * 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f* 0.2f, -3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, -3.0f* 0.6f, -1.0f));
 	//frontal
-	positionsFalange.push_back(vec3(5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f* 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f* 0.2f, 3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, 3.0f* 0.6f, 1.0f));
 	//izquierda
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, -7.0f, 1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, -3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, 3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, -3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, 3.0f* 0.6f, 1.0f));
 	//arriba
-	positionsFalange.push_back(vec3(5.0f, 7.0f, 1.0f));
-	positionsFalange.push_back(vec3(5.0f, 7.0f, -1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, 1.0f));
-	positionsFalange.push_back(vec3(-5.0f, 7.0f, -1.0f));
+	positionsFalange.push_back(vec3(4.0f* 0.2f, 3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(4.0f* 0.2f, 3.0f* 0.6f, -1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, 3.0f* 0.6f, 1.0f));
+	positionsFalange.push_back(vec3(-4.0f* 0.2f, 3.0f* 0.6f, -1.0f));
 
 	//Normales
 	//trasera
@@ -225,7 +259,7 @@ void Initialize() {
 		8, 9, 10, 10, 9, 11,
 		12, 13, 14, 14, 13, 15,
 		16, 17, 18, 18, 17, 19,
-		20,21,22,22,21,23,
+		20,21,22,22,21,23
 	};
 
 	caja.LoadTexture("caja.jpg");
@@ -282,8 +316,8 @@ void Initialize() {
 	program.Deactivate();
 
 	programa2.CreateProgram();
-	programa2.AttachShader("Shadow2.vert", GL_VERTEX_SHADER);
-	programa2.AttachShader("Shadow2.frag", GL_FRAGMENT_SHADER);
+	programa2.AttachShader("Shadow.vert", GL_VERTEX_SHADER);
+	programa2.AttachShader("Shadow.frag", GL_FRAGMENT_SHADER);
 	programa2.SetAttribute(0, "VertexPosition");
 	programa2.SetAttribute(1, "VertexColor");
 	programa2.SetAttribute(2, "VertexNormal");
@@ -301,31 +335,101 @@ void Initialize() {
 	
 	programa2.Deactivate();
 
-	_camera.SetPosition(0.0f, 0.0f, 10.0f);
+	_camera.SetPosition(0.0f, 0.0f, 30.0f);
 	_camaraLuz.SetPosition(lightPosition.x, lightPosition.y, lightPosition.z);
 	_camaraLuz.Pitch(-45);
 	_camaraLuz.SetOrthographic(30.0f, 1);
 
-	_transform.SetScale(0.2f, 0.2f, 0.2f);
+	//_transform.SetScale(0.1f, 0.1f, 0.1f);
 	_transform.SetRotation(-45.0f, 0.0f, 0.0f);
-	_transform2.SetScale(8.0f, 0.01f, 8.0f);
+	_transform.SetPosition(0.0f, -2.0f, 0.0f);
+	_transform2.SetScale(8.0f, 0.01f, 15.0f);
+	_transform2.SetPosition(0.0f, -10.0f, 0.0f);
 
-	_transform.SetPosition(0.0f, 0.0f, 0.0f);
-	_transform2.SetPosition(0.0f, -2.0f, 0.0f);
 	
-	_falPul1.SetScale(0.1f, 0.05f, 0.2f);
-	_falPul1.SetPosition(2.0f, 0.0f, 0.0f);
+	
+	
+	//Dedos
+	//Pulgar
+	//_falPul1.SetScale(0.04f, 0.02f, 0.08f);
+	//_falPul2.SetScale(0.04f, 0.02f, 0.08f);
+	_falPul1.SetPosition(0.0f, 2.5f, 0.0f);
+	_falPul2.SetPosition(0.0f, 2.5f, 0.0f);
+
+	//Indice
+	//_falIn1.SetScale(0.025f, 0.03f, 0.2f);
+	//_falIn2.SetScale(0.025f, 0.03f, 0.2f);
+	_falIn1.SetPosition(0.0f, 2.5f, 0.0f);
+	_falIn2.SetPosition(0.0f, 2.5f, 0.0f);
+
+	//Medio
+	//_falMed1.SetScale(0.025f, 0.03f, 0.2f);
+	//_falMed2.SetScale(0.025f, 0.03f, 0.2f);
+	_falMed1.SetPosition(0.0f, 2.5f, 0.0f);
+	_falMed2.SetPosition(0.0f, 2.5f, 0.0f);
+
+	//Menique
+	//_falM1.SetScale(0.025f, 0.03f, 0.2f);
+	//_falM2.SetScale(0.025f, 0.03f, 0.2f);
+	_falM1.SetPosition(1.8f,0.0f, 0.0f);
+	_falM1.Rotate(0.0f, 0.0f, -90.0f, false);
+	_falM2.SetPosition(  0.0f, 1.8f, 0.0f);
+	//_falM2.Rotate(0.0f, 0.0f, 90.0f, false);
+
+	_prueba.SetPosition(-2.2f, 5.0f, 0.0f);
+	_prueba2.SetPosition(0.0f, 0.8f, 0.0f);
+
+	_prueba3.SetPosition(-0.2f,5.0f,0.0f);
+	_prueba4.SetPosition(0.0f, 0.8f, 0.0f);
+
+	_prueba5.SetPosition(1.8f, 5.0f, 0.0f);
+	_prueba6.SetPosition(0.0f, 0.8f, 0.0f);
+
+	_prueba7.SetPosition(3.0f,-4.2f,0.0f);
+	_prueba8.SetPosition( 0.0f, 1.8f, 0.0f);
 
 	//Recibe resolucion
 	profundidad.Create(2048);
 	
+	
+
 
 	
 }
 
 void GameLoop() {
-	_transform.Rotate(0.01f, 0.01f, 0.01f, false);
+	_transform.Rotate(0.00f, 0.00f, 0.01f, false);
 	
+	//Mover dedos
+	//_falPul1.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	_prueba.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	_prueba2.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falPul2.Translate(0.0f, trasladarDedos, 0.0f, false);
+
+	_prueba3.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falIn1.Translate(0.0f, trasladarDedos, 0.0f, false);
+	_prueba4.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falIn2.Translate(0.0f, trasladarDedos, 0.0f, false);
+
+	_prueba5.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falMed1.Translate(0.0f, trasladarDedos, 0.0f, false);
+	_prueba6.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falMed2.Translate(0.0f, trasladarDedos, 0.0f, false);
+
+	_prueba7.Rotate(0.0f, -rotarDedos, 0.0f, false);
+	//_falM1.Translate(0.0f, -trasladarDedos, 0.0f, false);
+	_prueba8.Rotate(rotarDedos, 0.0f, 0.0f, false);
+	//_falM2.Translate(0.0f, -trasladarDedos, 0.0f, false);
+
+	delta += 1;
+	//cout << delta << endl;
+	if (delta % 2000 == 0) {
+		rotarDedos = rotarDedos*-1.0;
+		trasladarDedos = trasladarDedos*-1.0;
+	}
+	
+
+
 	/////////////////////////////////////////////////////////////////////////////
 	//Primer Render
 	/////////////////////////////////////////////////////////////////////////////
@@ -336,7 +440,7 @@ void GameLoop() {
 
 	programa2.Activate();
 
-	//Cubo
+	//Palma
 	programa.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() * _transform.GetModelMatrix());
 	mesh.Draw(GL_TRIANGLES);
 
@@ -348,9 +452,31 @@ void GameLoop() {
 	//programa.Deactivate();
 
 	//programa2.Activate();
-	//Pulgar
-	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _falPul1.GetModelMatrix());
+	//Menique
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix());
 	falange.Draw(GL_TRIANGLES);
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix() * _prueba2.GetModelMatrix() * _falPul2.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+
+	//Indice
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba3.GetModelMatrix() * _falIn1.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba3.GetModelMatrix() *  _falIn1.GetModelMatrix() *_prueba4.GetModelMatrix() *_falIn2.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+
+	//Medio
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix() * _prueba6.GetModelMatrix() *_falMed2.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+
+	//Menique
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+	programa2.SetUniformMatrix("mvpMatrix", _camaraLuz.GetViewProjection() *  _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix() * _prueba8.GetModelMatrix() * _falM2.GetModelMatrix());
+	falange.Draw(GL_TRIANGLES);
+
+
 
 	programa2.Deactivate();
 
@@ -381,7 +507,7 @@ void GameLoop() {
 	program.SetUniformf("cameraPosition", _camera.GetPosition().x, _camera.GetPosition().y, _camera.GetPosition().z);
 	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix());
 	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix()))));
-	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform.GetModelMatrix());
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()* _transform.GetModelMatrix());
 	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
 	program.SetUniformi("shadowMap", 2);
 	mesh.Draw(GL_TRIANGLES);
@@ -400,7 +526,7 @@ void GameLoop() {
 	normalMatrix2 = transpose(inverse(mat3(_transform2.GetModelMatrix())));
 	program.SetUniformMatrix("modelMatrix", modelMatrix2);
 	program.SetUniformMatrix3("normalMatrix", normalMatrix2);
-	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection()* _transform2.GetModelMatrix());
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()* _transform2.GetModelMatrix());
 	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
 	program.SetUniformi("shadowMap", 2);
 
@@ -414,17 +540,130 @@ void GameLoop() {
 	
 	program.Deactivate();
 
-	//Pulgar
+	//Menique
 	program.Activate();
 	glActiveTexture(GL_TEXTURE0);
 	caja.Bind();
 	glActiveTexture(GL_TEXTURE2);
 	profundidad.BindDepthMap();
-	mat4 matModeloPul = _transform.GetModelMatrix() * _falPul1.GetModelMatrix();
-	normalMatrix2 = glm::transpose(glm::inverse(mat3(_transform.GetModelMatrix() * _falPul1.GetModelMatrix())));
-	program.SetUniformMatrix("modelMatrix", matModeloPul);
-	program.SetUniformMatrix3("normalMatrix", normalMatrix2);
-	program.SetUniformMatrix("mvplMatrix", _camera.GetViewProjection() * _falPul1.GetModelMatrix());
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix() );
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix() * _prueba2.GetModelMatrix() * _falPul2.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix() * _prueba2.GetModelMatrix() * _falPul2.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() *_transform.GetModelMatrix() * _prueba.GetModelMatrix() * _falPul1.GetModelMatrix() * _prueba2.GetModelMatrix() * _falPul2.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	//(medio)
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba3.GetModelMatrix() * _falIn1.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba3.GetModelMatrix() * _falIn1.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() *  _transform.GetModelMatrix() * _prueba3.GetModelMatrix() * _falIn1.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba3.GetModelMatrix() *  _falIn1.GetModelMatrix() *_prueba4.GetModelMatrix() *_falIn2.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba3.GetModelMatrix() *  _falIn1.GetModelMatrix() *_prueba4.GetModelMatrix() *_falIn2.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() *   _transform.GetModelMatrix() * _prueba3.GetModelMatrix() *  _falIn1.GetModelMatrix() *_prueba4.GetModelMatrix() *_falIn2.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	//Indice
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix() * _prueba6.GetModelMatrix() *_falMed2.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix() * _prueba6.GetModelMatrix() *_falMed2.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix() * _prueba5.GetModelMatrix() * _falMed1.GetModelMatrix() * _prueba6.GetModelMatrix() *_falMed2.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	//Menique no
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix());
+	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
+	falange.Draw(GL_TRIANGLES);
+	glActiveTexture(GL_TEXTURE0);
+	caja.Unbind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.UnbindDepthMap();
+	program.Deactivate();
+
+	program.Activate();
+	glActiveTexture(GL_TEXTURE0);
+	caja.Bind();
+	glActiveTexture(GL_TEXTURE2);
+	profundidad.BindDepthMap();
+	program.SetUniformMatrix("modelMatrix", _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix() * _prueba8.GetModelMatrix() * _falM2.GetModelMatrix());
+	program.SetUniformMatrix3("normalMatrix", transpose(inverse(mat3(_transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix() * _prueba8.GetModelMatrix() * _falM2.GetModelMatrix()))));
+	program.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection() * _transform.GetModelMatrix() * _prueba7.GetModelMatrix() * _falM1.GetModelMatrix() * _prueba8.GetModelMatrix() * _falM2.GetModelMatrix());
 	program.SetUniformMatrix("LightVPMatrix", _camaraLuz.GetViewProjection());
 	falange.Draw(GL_TRIANGLES);
 	glActiveTexture(GL_TEXTURE0);
